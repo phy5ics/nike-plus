@@ -1,4 +1,4 @@
-require 'nike_plus/serial_connection'
+require 'nike_plus/client/serial_connection'
 
 module NikePlus
   class Client
@@ -10,6 +10,8 @@ module NikePlus
         send("#{key}=", options[key])
       end
     end
+
+		include NikePlus::Client::SerialConnection
 	
 	end
 end

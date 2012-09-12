@@ -1,6 +1,6 @@
-require "nike_plus/version"
-require "nike_plus/configuration"
-require "nike_plus/client"
+require 'nike_plus/version'
+require 'nike_plus/configuration'
+require 'nike_plus/client'
 
 module NikePlus
   extend Configuration

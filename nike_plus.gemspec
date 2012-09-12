@@ -12,6 +12,8 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{A serial interface to communicate with Nike+ devices. It will detect all Nike+ devices in the area and provide realtime notifications of events.}
   gem.homepage      = "http://github.com/physics/nike_plus"
 
+  gem.add_dependency 'serialport'
+
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'simplecov'

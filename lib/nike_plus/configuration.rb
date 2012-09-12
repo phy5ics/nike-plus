@@ -1,3 +1,5 @@
+require 'nike_plus/version'
+
 module NikePlus
   module Configuration
     VALID_OPTIONS_KEYS = [

@@ -13,6 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = "http://github.com/physics/nike_plus"
 
   gem.add_dependency 'serialport'
+	gem.add_dependency 'hex_string'
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'

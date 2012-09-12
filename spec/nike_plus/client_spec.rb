@@ -7,9 +7,10 @@ describe NikePlus::Client do
   #  }.should_not raise_exception
   #end
 
-  describe "serial_port" do
+  describe "client" do
     after(:each) do
-      NikePlus.reset
+			# NikePlus::Client.close
+			NikePlus.reset
     end
 
     #it "should default to /dev/tty.usbserial-A100RUVN" do
@@ -18,9 +19,17 @@ describe NikePlus::Client do
     #end
     
     it "should open the serial port" do
-      client = NikePlus::Client.new
-      client.open
+			proc {
+				@client = NikePlus::Client.new serial_port: '/dev/tty.usbserial-A100RUVN'
+			}.should_not raise_exception
     end
+
+		#it "should close the serial port" do
+		#	proc {
+		#		client = NikePlus::Client.new
+		#		client.close
+		#	}.should_not raise_exception
+		#end
 
     #it "should be set " do
     #  NikePlus.serial_port = '/dev/tty.usbserial-SOMEOTHERPORT'

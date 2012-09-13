@@ -1,3 +1,4 @@
+require 'logger'
 require 'nike_plus/version'
 
 module NikePlus
@@ -6,12 +7,14 @@ module NikePlus
       :adapter,
       :serial_port,
 			:baud_rate,
-			:timeout].freeze
+			:timeout,
+			:logger_level].freeze
 
     DEFAULT_ADAPTER = 'TBD'
     DEFAULT_SERIAL_PORT = '/dev/tty.usbserial-A100RUVN'
 		DEFAULT_BAUD_RATE = 57600
 		DEFAULT_TIMEOUT = 10
+		DEFAULT_LOGGER_LEVEL = Logger::ERROR
 
     attr_accessor(*VALID_OPTIONS_KEYS)
 
@@ -36,6 +39,7 @@ module NikePlus
       self.serial_port = DEFAULT_SERIAL_PORT
 			self.baud_rate = DEFAULT_BAUD_RATE
 			self.timeout = DEFAULT_TIMEOUT
+			self.logger_level = DEFAULT_LOGGER_LEVEL
     end
   end
 end

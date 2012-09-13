@@ -4,46 +4,60 @@ require 'hex_string'
 module NikePlus
   class Client
     module SerialConnection
-			attr_accessor :conn
+			attr_accessor :conn, :connected, :reading
 	
       def open
-        puts "Serial connection opening"
-				puts NikePlus.serial_port
-				puts NikePlus.baud_rate
-        @device = SerialPort.new(NikePlus.serial_port, NikePlus.baud_rate)
+				log.info "Attempting to open serial connection with device on #{NikePlus.serial_port} at #{NikePlus.baud_rate} baud"
+        @device = SerialPort.new NikePlus.serial_port, NikePlus.baud_rate
 				handshake
       end
 
 			def handshake
-				puts "Starting device handshake"
-				
-				@device.write 'ff 55 04 09 07 00 25 c7'.to_byte_string
-				bytes = @device.read 8
-				puts bytes.to_hex_string
-				
-				@device.write 'ff 55 02 09 05 f0'.to_byte_string
-				bytes = @device.read 8
-				puts bytes.to_hex_string
-				
-				puts "Nike+ Initialized"
-				
-				# puts byte[0..8].to_hex_string
-			end
-      
-      def close
-				puts "Serial connection closing"
-        @device.close
-      end
-
-			def write
-				puts "Serial write"
-				@device.write
+				log.info "Starting device handshake"
+				send_handshake 'ff 55 04 09 07 00 25 c7', 'ff 55 04 09 00 00 07 ec'
+				send_handshake 'ff 55 02 09 05 f0', 'ff 55 04 09 06 00 25 c8'
+				log.info "Device initialized"
 			end
 			
-			def read
-				puts "Serial readline"
-				@device.readline
+			def send_handshake message, expected_response
+				log.info "Sending first handshake"
+				begin
+					@device.write message.to_byte_string
+					bytes = @device.read 8
+					log.debug "Received response: #{bytes.to_hex_string}"
+				rescue
+					log.error "Unexpected result from device, retrying"
+					retry if bytes.to_hex_string != expected_response
+				end
+				log.info "Response OK"
+				@connected = true
 			end
+			
+			def start_reading
+				log.info "Reading from serial"
+				@reading = true
+				begin
+					byte = @device.read 1
+					if byte
+						message = @device.read 33
+						log.debug message.to_hex_string
+						message.to_hex_string
+					end
+				end while @reading == true
+			end
+			
+			def stop_reading
+				log.info "Stopped reading from serial"
+				@reading = false
+			end
+			
+			def close
+				log.info "Closing serial connection"
+        @device.close
+				@reading = false
+				@connected = false
+      end
+			
     end
   end
 end

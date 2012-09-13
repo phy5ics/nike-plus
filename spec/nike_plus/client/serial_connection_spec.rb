@@ -1,15 +1,20 @@
 require 'spec_helper'
+require 'logger'
 
 describe NikePlus::Client::SerialConnection do
 
   describe "serial_connection" do
     before do
-			@client = NikePlus::Client.new serial_port: '/dev/tty.usbserial-A100RUVN'
-			
+			@client = NikePlus::Client.new serial_port: '/dev/tty.usbserial-A100RUVN', logger_level: Logger::DEBUG
     end
     
-    it "should read a byte from the serial port" do
+    it "should handshake with the device" do
 			@client.open
+			@client.start_reading
+    end
+
+		it "should start reading data from the device" do
+			
     end
 
 		#it "should close the serial port" do

@@ -14,7 +14,7 @@ describe NikePlus do
 
   describe ".new" do
     it "should be a NikePlus::Client" do
-      NikePlus.new.should be_a NikePlus::Client
+      NikePlus.new.should be_a NikePlus::Device
     end
   end
 end

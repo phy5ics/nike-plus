@@ -1,8 +1,9 @@
 require 'logger'
-require 'nike_plus/client/serial_connection'
+require 'nike_plus/device/serial_connection'
+require 'nike_plus/device/decoder'
 
 module NikePlus
-  class Client
+  class Device
     attr_accessor(*Configuration::VALID_OPTIONS_KEYS)
 		attr_accessor :log
 
@@ -15,7 +16,8 @@ module NikePlus
 			@log.level = self.logger_level
     end
 
-		include NikePlus::Client::SerialConnection
+		include NikePlus::Device::SerialConnection
+		include NikePlus::Device::Decoder
 	
 	end
 end

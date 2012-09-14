@@ -1,6 +1,6 @@
 require 'nike_plus/version'
 require 'nike_plus/configuration'
-require 'nike_plus/client'
+require 'nike_plus/device'
 
 module NikePlus
   extend Configuration
@@ -9,7 +9,7 @@ module NikePlus
     #
     # @return [NikePlus::Client]
     def new(options={})
-      NikePlus::Client.new(options)
+      NikePlus::Device.new(options)
     end
 
     def respond_to?(method, include_private=false)

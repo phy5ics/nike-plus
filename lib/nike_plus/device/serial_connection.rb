@@ -2,9 +2,9 @@ require 'serialport'
 require 'hex_string'
 
 module NikePlus
-  class Client
+  class Device
     module SerialConnection
-			attr_accessor :conn, :connected, :reading
+			attr_accessor :connected, :reading
 	
       def open
 				log.info "Attempting to open serial connection with device on #{NikePlus.serial_port} at #{NikePlus.baud_rate} baud"
@@ -37,11 +37,13 @@ module NikePlus
 				log.info "Reading from serial"
 				@reading = true
 				begin
-					byte = @device.read 1
-					if byte
-						message = @device.read 33
+					byte = @device.read 2
+					log.debug "Leading bytes: #{byte.to_hex_string}"
+					if byte.to_hex_string == 'ff 55'
+						message = @device.read 32
 						log.debug message.to_hex_string
-						message.to_hex_string
+						packet = decode message.to_hex_string
+						log.debug "device_id: #{packet.device_id}"
 					end
 				end while @reading == true
 			end

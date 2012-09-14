@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe NikePlus::Client do
+describe NikePlus::Device do
   #it 'should instantiate with api key' do
   #  proc {
   #    NikePlus::Client.new(serial_port: '/dev/tty.usbserial-A100RUVN')
   #  }.should_not raise_exception
   #end
 
-  describe "client" do
+  describe "device" do
     after(:each) do
-			# NikePlus::Client.close
+			# NikePlus::Device.close
 			NikePlus.reset
     end
 
@@ -20,7 +20,7 @@ describe NikePlus::Client do
     
     it "should open the serial port" do
 			proc {
-				@client = NikePlus::Client.new serial_port: '/dev/tty.usbserial-A100RUVN'
+				@device = NikePlus::Device.new serial_port: '/dev/tty.usbserial-A100RUVN'
 			}.should_not raise_exception
     end
 

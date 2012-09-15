@@ -1,9 +1,11 @@
 require 'serialport'
 require 'hex_string'
+require 'observer'
 
 module NikePlus
   class Device
     module SerialConnection
+      include Observable
 			attr_accessor :connected, :reading
 	
       def open
@@ -44,6 +46,7 @@ module NikePlus
 						log.debug message.to_hex_string
 						packet = decode message.to_hex_string
 						log.debug "device_id: #{packet.device_id}"
+						notify_observers packet
 					end
 				end while @reading == true
 			end
